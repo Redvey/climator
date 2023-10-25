@@ -1,5 +1,6 @@
 // import 'package:fluttertoast/fluttertoast.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:another_flushbar/flushbar_helper.dart';
 
 class Locations {
   late Position position;
@@ -41,6 +42,12 @@ class Locations {
       longitude = position.longitude;
     } catch (e) {
       print("In locations error");
+      FlushbarHelper.createError(
+        title: "Error",
+        message:
+            "Either give proper permissions \n or Give refresh & \n Wait for the data to load",
+        duration: Duration(seconds: 3),
+      );
       // Fluttertoast.showToast(
       //     msg:
       //         "Error: Either give proper permissions \n or Give refresh & \n Wait for the data to load",
