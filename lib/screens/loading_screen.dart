@@ -3,6 +3,7 @@ import 'package:climator/services/weather.dart';
 import 'package:climator/utilities/constants.dart';
 import 'package:flutter/material.dart';
 // import 'package:fluttertoast/fluttertoast.dart';
+import 'package:another_flushbar/flushbar_helper.dart';
 
 class LoadingScreen extends StatefulWidget {
   @override
@@ -17,6 +18,10 @@ class _LoadingScreenState extends State<LoadingScreen> {
   }
 
   void getCurrentCoordinates() async {
+    FlushbarHelper.createInformation(
+      message: "Fetching WeatherData....",
+      duration: Duration(seconds: 1),
+    );
     // Fluttertoast.showToast(
     //     msg: "Fetching WeatherData....",
     //     toastLength: Toast.LENGTH_SHORT,
@@ -24,6 +29,10 @@ class _LoadingScreenState extends State<LoadingScreen> {
     //     timeInSecForIosWeb: 1);
     final Map<dynamic, dynamic>? weatherData =
         await WeatherModel().getCityWeatherData('London');
+    FlushbarHelper.createSuccess(
+      message: "WeatherData Received",
+      duration: Duration(seconds: 1),
+    );
     // Fluttertoast.showToast(
     //     msg: "WeatherData Received",
     //     toastLength: Toast.LENGTH_SHORT,

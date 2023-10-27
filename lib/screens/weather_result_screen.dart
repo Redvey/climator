@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:another_flushbar/flushbar_helper.dart';
 import 'package:climator/components/backround_decoration.dart';
 import 'package:climator/components/border_icon.dart';
 import 'package:climator/components/custom_button.dart';
@@ -87,17 +88,17 @@ class _WeatherResultState extends State<WeatherResult> {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title:const Text('Are you sure?'),
-        content:const Text('Do you want to exit an App'),
+        title: const Text('Are you sure?'),
+        content: const Text('Do you want to exit an App'),
         actions: <Widget>[
           ElevatedButton(
             onPressed: () => Navigator.of(context).pop(false),
-            child:const Text('No'),
+            child: const Text('No'),
           ),
           ElevatedButton(
             onPressed: () => exit(0),
             /*Navigator.of(context).pop(true)*/
-            child:const Text('Yes'),
+            child: const Text('Yes'),
           ),
         ],
       ),
@@ -117,7 +118,7 @@ class _WeatherResultState extends State<WeatherResult> {
           color: Colors.black,
           child: SafeArea(
             child: Container(
-              padding:const  EdgeInsets.all(20.0),
+              padding: const EdgeInsets.all(20.0),
               decoration: kBackgroundDecoration,
               constraints: const BoxConstraints.expand(),
               child: Container(
@@ -150,6 +151,11 @@ class _WeatherResultState extends State<WeatherResult> {
                                 if (weatherData != null)
                                   updateLocationDetails(weatherData);
                                 else {
+                                  FlushbarHelper.createError(
+                                    message:
+                                        "City Not Found \nPlease try again",
+                                    duration: Duration(seconds: 1),
+                                  );
                                   // Fluttertoast.showToast(
                                   //     msg: "City Not Found \nPlease try again",
                                   //     backgroundColor: Colors.red,
@@ -160,7 +166,7 @@ class _WeatherResultState extends State<WeatherResult> {
                               });
                             }
                           },
-                          child:const  Icon(
+                          child: const Icon(
                             Icons.search,
                             size: 35,
                           ),
@@ -179,7 +185,7 @@ class _WeatherResultState extends State<WeatherResult> {
                                   '$cityName',
                                   style: kCityTextStyle,
                                 ),
-                                padding:const  EdgeInsets.only(left: 2, top: 2),
+                                padding: const EdgeInsets.only(left: 2, top: 2),
                               ),
                             ],
                           ),
@@ -193,7 +199,7 @@ class _WeatherResultState extends State<WeatherResult> {
                               updateLocationDetails(weatherData);
                             });
                           },
-                          child:const  Icon(
+                          child: const Icon(
                             Icons.refresh,
                             size: 35,
                           ),
