@@ -1,7 +1,7 @@
 name: I am having difficulty installing Climator or getting it to work
 description: You have run into problems while downloading or installing Climator, or the
-  "flutter" tool is crashing, or you are running into some other issue before even
-  being able to use "flutter run".
+  "climator" app is crashing, or you are running into some other issue before even
+  being able to use "climator run".
 body:
   - type: markdown
     attributes:
@@ -17,7 +17,7 @@ body:
       options:
       - label: I have searched the [existing issues](https://github.com/droidbg/climator/issues)
         required: true
-      - label: I have read the [guide to filing a bug](https://flutter.dev/docs/resources/bug-reports)
+      - label: I have read the [guide to filing a bug](https://climator.dev/docs/resources/bug-reports)
         required: true
   - type: textarea
     attributes:
@@ -40,9 +40,9 @@ body:
       label: Logs
       description: |
         Include the full logs of the commands you are running between the lines
-        with the backticks below. If you are running any `flutter` commands,
+        with the backticks below. If you are running any `climator` commands,
         please include the output of running them with `--verbose`; for example,
-        the output of running `flutter --verbose create foo`.
+        the output of running `climator --verbose create foo`.
 
         If the logs are too large to be uploaded to Github, you may upload
         them as a `txt` file or use online tools like https://pastebin.com to
@@ -63,9 +63,9 @@ body:
         </details>
   - type: textarea
     attributes:
-      label: Flutter Doctor output
+      label: climator Doctor output
       description: |
-        Please provide the full output of running `flutter doctor -v`
+        Please provide the full output of running `climator doctor -v`
       value: |
         <details>
         <summary>Doctor output</summary>
