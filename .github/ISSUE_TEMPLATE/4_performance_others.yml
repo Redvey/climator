@@ -7,14 +7,14 @@ body:
   - type: markdown
     attributes:
       value: |
-        Thank you for using Flutter!
+        Thank you for using climator!
 
         If you are looking for support, please check out our documentation
         or consider asking a question on Stack Overflow:
 
-          - https://flutter.dev/
-          - https://api.flutter.dev/
-          - https://stackoverflow.com/questions/tagged/flutter?sort=frequent
+          - https://climator.dev/
+          - https://api.climator.dev/
+          - https://stackoverflow.com/questions/tagged/climator?sort=frequent
   - type: textarea
     attributes:
       label: Steps to reproduce
@@ -31,7 +31,7 @@ body:
       description: |
         Please create a minimal reproducible sample that shows the problem and attach it below between the lines with the backticks.
 
-        Try to reproduce the problem in a test app. Either run `flutter create janktest` and recreate the situation you are experiencing in that app, or clone your app and delete code until you have the jank reproducing with a single `.dart` file.
+        Try to reproduce the problem in a test app. Either run `climator create janktest` and recreate the situation you are experiencing in that app, or clone your app and delete code until you have the jank reproducing with a single `.dart` file.
 
         If you need more than just a `.dart` file (for example, assets are needed to reproduce the issue, or plugins/packages are needed to reproduce the issue) then create a GitHub repository and upload code there.
 
@@ -84,7 +84,7 @@ body:
     attributes:
       label: Logs
       description: |
-        Include the full logs of the commands you are running between the lines with the backticks below. If you are running any `flutter` commands, please include the output of running them with `--verbose`; for example, the output of running `flutter --verbose create foo`.
+        Include the full logs of the commands you are running between the lines with the backticks below. If you are running any `climator` commands, please include the output of running them with `--verbose`; for example, the output of running `climator --verbose create foo`.
 
         If the logs are too large to be uploaded to GitHub, you may upload them as a `txt` file or use online tools like https://pastebin.com to share it.
 
@@ -99,9 +99,9 @@ body:
         </details>
   - type: textarea
     attributes:
-      label: Flutter Doctor output
+      label: climator Doctor output
       description: |
-        Finally, paste the output of running `flutter doctor -v` here, with your device plugged in.
+        Finally, paste the output of running `climator doctor -v` here, with your device plugged in.
       value: |
         <details><summary>Doctor output</summary>
 
