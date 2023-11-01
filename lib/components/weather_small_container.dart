@@ -1,24 +1,24 @@
-import 'package:climator/utilities/constants.dart';
+import '../utilities/constants.dart';
 import 'package:flutter/material.dart';
 
 class WeatherDetailsWithIcon extends StatelessWidget {
-  final String iconText;
-  final String detailText;
-  final String labelText;
 
-  WeatherDetailsWithIcon({
+  const WeatherDetailsWithIcon({super.key, 
     required this.iconText,
     required this.detailText,
     required this.labelText,
   });
+  final String iconText;
+  final String detailText;
+  final String labelText;
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       height: kDetailsContainerHeight,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
+        children: <Widget>[
           Expanded(
             child: Text(iconText),
           ),

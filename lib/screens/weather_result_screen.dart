@@ -1,25 +1,25 @@
 import 'dart:io';
 
 import 'package:another_flushbar/flushbar_helper.dart';
-import 'package:climator/components/backround_decoration.dart';
-import 'package:climator/components/border_icon.dart';
-import 'package:climator/components/custom_button.dart';
-import 'package:climator/components/weather_small_container.dart';
-import 'package:climator/screens/search_screen.dart';
-import 'package:climator/services/weather.dart';
-import 'package:climator/utilities/constants.dart';
-import 'package:climator/utilities/degree_to_direction.dart';
 import 'package:flutter/material.dart';
 // import 'package:fluttertoast/fluttertoast.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../components/backround_decoration.dart';
+import '../components/border_icon.dart';
+import '../components/custom_button.dart';
+import '../components/weather_small_container.dart';
 import '../config/config.dart';
 import '../config/config_keys.dart';
+import '../services/weather.dart';
+import '../utilities/constants.dart';
+import '../utilities/degree_to_direction.dart';
+import 'search_screen.dart';
 
 class WeatherResult extends StatefulWidget {
-  final Map<dynamic, dynamic>? weatherData;
 
-  WeatherResult({this.weatherData});
+  const WeatherResult({super.key, this.weatherData});
+  final Map<dynamic, dynamic>? weatherData;
 
   @override
   _WeatherResultState createState() => _WeatherResultState();
@@ -64,32 +64,38 @@ class _WeatherResultState extends State<WeatherResult> {
     imageName = 'rain';
   }
 
-  void updateLocationDetails(Map<dynamic, dynamic>? weatherData) async {
+  Future<void> updateLocationDetails(Map<dynamic, dynamic>? weatherData) async {
     if (weatherData == null) {
       settingNullValues();
     } else {
       cond = weatherData['weather'][0]['id'] as int;
       imageName = weatherModel.getWeatherIconName(cond);
-      double temp = weatherData['main']['temp'] as double;
+      final double temp = weatherData['main']['temp'] as double;
       temperature = temp.toInt();
       cityName = weatherData['name'] as String;
-      String tempWeather = weatherData['weather'][0]['description'] as String;
+      final String tempWeather = weatherData['weather'][0]['description'] as String;
       weatherMain = tempWeather.toUpperCase();
       humidityValue = weatherData['main']['humidity'] as int;
-      var speedMeterPerSec = weatherData['wind']['speed']; //meter per seconds
+      final speedMeterPerSec = weatherData['wind']['speed']; // meter per seconds
       windSpeed = (speedMeterPerSec * 3.6).toInt().toDouble() as double;
-      var windDegree = weatherData['wind']['deg'];
-      print("type: ${windDegree.runtimeType}");
-      windDirection = degToCompass(windDegree);
+      final windDegree = weatherData['wind']['deg'];
+
+      if (windDegree is int) {
+        windDirection = degToCompass(windDegree);
+      } else {
+        print('The wind degree is not of type int.');
+        // Handle the situation when the type is not an integer, or consider converting it if possible.
+      }
     }
   }
 
+
   Future<bool> _onWillPop() async {
-    showDialog(
+    showDialog<bool>(
       context: context,
-      builder: (context) => AlertDialog(
+      builder: (BuildContext context) => AlertDialog(
         title: const Text('Are you sure?'),
-        content: const Text('Do you want to exit an App'),
+        content: const Text('Do you want to exit the App?'),
         actions: <Widget>[
           ElevatedButton(
             onPressed: () => Navigator.of(context).pop(false),
@@ -97,7 +103,6 @@ class _WeatherResultState extends State<WeatherResult> {
           ),
           ElevatedButton(
             onPressed: () => exit(0),
-            /*Navigator.of(context).pop(true)*/
             child: const Text('Yes'),
           ),
         ],
@@ -105,6 +110,7 @@ class _WeatherResultState extends State<WeatherResult> {
     );
     return false;
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -124,37 +130,37 @@ class _WeatherResultState extends State<WeatherResult> {
               child: Container(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
+                  children: <Widget>[
                     // SizedBox(
                     //   height: 40,
                     // ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
+                      children: <Widget>[
                         GestureDetector(
                           onTap: () async {
                             final String? typedName = await Navigator.push(
                               context,
                               MaterialPageRoute<String>(
-                                builder: (context) {
-                                  return SearchScreen();
+                                builder: (BuildContext context) {
+                                  return const SearchScreen();
                                 },
                               ),
                             );
                             print('$typedName');
                             if (typedName != null) {
-                              Map<dynamic, dynamic>? weatherData =
+                              final Map<dynamic, dynamic>? weatherData =
                                   await weatherModel.getCityWeatherData(
-                                      typedName) as Map<dynamic, dynamic>?;
+                                      typedName);
 
                               setState(() {
-                                if (weatherData != null)
+                                if (weatherData != null) {
                                   updateLocationDetails(weatherData);
-                                else {
+                                } else {
                                   FlushbarHelper.createError(
                                     message:
-                                        "City Not Found \nPlease try again",
-                                    duration: Duration(seconds: 1),
+                                        'City Not Found \nPlease try again',
+                                    duration: const Duration(seconds: 1),
                                   );
                                   // Fluttertoast.showToast(
                                   //     msg: "City Not Found \nPlease try again",
@@ -174,18 +180,18 @@ class _WeatherResultState extends State<WeatherResult> {
                         BorderWithIcon(
                           colour: Colors.blue,
                           widget: Row(
-                            children: [
+                            children: <Widget>[
                               Icon(
                                 locationOn,
                                 color: Colors.blue,
                               ),
                               // BorderWithIcon(iconData: locationOn, colour: Colors.blue),
                               Container(
+                                padding: const EdgeInsets.only(left: 2, top: 2),
                                 child: Text(
-                                  '$cityName',
+                                  cityName,
                                   style: kCityTextStyle,
                                 ),
-                                padding: const EdgeInsets.only(left: 2, top: 2),
                               ),
                             ],
                           ),
@@ -193,8 +199,7 @@ class _WeatherResultState extends State<WeatherResult> {
                         GestureDetector(
                           onTap: () async {
                             final Map<dynamic, dynamic>? weatherData =
-                                await WeatherModel().getWeatherDataByLatLong()
-                                    as Map<dynamic, dynamic>?;
+                                await WeatherModel().getWeatherDataByLatLong();
                             setState(() {
                               updateLocationDetails(weatherData);
                             });
@@ -228,7 +233,7 @@ class _WeatherResultState extends State<WeatherResult> {
                       height: 50.0,
                     ),
                     Text(
-                      '$weatherMain',
+                      weatherMain,
                       textAlign: TextAlign.center,
                       style: kWeatherMainTextStyle,
                     ),
@@ -237,7 +242,7 @@ class _WeatherResultState extends State<WeatherResult> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.baseline,
                         textBaseline: TextBaseline.alphabetic,
-                        children: [
+                        children: <Widget>[
                           Text(
                             '$temperature',
                             style: kNumberTempTextStyle,
@@ -256,7 +261,7 @@ class _WeatherResultState extends State<WeatherResult> {
                     Expanded(
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
+                        children: <Widget>[
                           // Expanded(child: GetIconContent(icon, value, text)),
                           Expanded(
                             child: WeatherDetailsWithIcon(
@@ -278,7 +283,7 @@ class _WeatherResultState extends State<WeatherResult> {
                             child: WeatherDetailsWithIcon(
                               // iconText: 'Compass',
                               iconText: '🧭',
-                              detailText: '$windDirection',
+                              detailText: windDirection,
                               labelText: 'Wind Direction',
                             ),
                           ),
@@ -286,7 +291,7 @@ class _WeatherResultState extends State<WeatherResult> {
                       ),
                     ),
                     CustomButton(
-                      text: '$kCustomButtonString',
+                      text: kCustomButtonString,
                       kBottomMargin: 10,
                       borderColor: Colors.blue[500]!,
                       textColor: Colors.blue,
@@ -295,7 +300,7 @@ class _WeatherResultState extends State<WeatherResult> {
                           final String url = config.get(ConfigKeys.teamId);
                           await launchUrl(Uri.parse(url));
                         } catch (e) {
-                          print("Error in launching url $e");
+                          print('Error in launching url $e');
                         }
                       },
                     ),

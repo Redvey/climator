@@ -1,11 +1,13 @@
-import 'package:climator/screens/weather_result_screen.dart';
-import 'package:climator/services/weather.dart';
-import 'package:climator/utilities/constants.dart';
-import 'package:flutter/material.dart';
-// import 'package:fluttertoast/fluttertoast.dart';
 import 'package:another_flushbar/flushbar_helper.dart';
+import 'package:flutter/material.dart';
+
+import '../services/weather.dart';
+import '../utilities/constants.dart';
+import 'weather_result_screen.dart';
 
 class LoadingScreen extends StatefulWidget {
+  const LoadingScreen({super.key});
+
   @override
   _LoadingScreenState createState() => _LoadingScreenState();
 }
@@ -17,30 +19,22 @@ class _LoadingScreenState extends State<LoadingScreen> {
     getCurrentCoordinates();
   }
 
-  void getCurrentCoordinates() async {
+  Future<void> getCurrentCoordinates() async {
     FlushbarHelper.createInformation(
-      message: "Fetching WeatherData....",
-      duration: Duration(seconds: 1),
+      message: 'Fetching Weather Data....',
+      duration: const Duration(seconds: 1),
     );
-    // Fluttertoast.showToast(
-    //     msg: "Fetching WeatherData....",
-    //     toastLength: Toast.LENGTH_SHORT,
-    //     gravity: ToastGravity.CENTER,
-    //     timeInSecForIosWeb: 1);
-    final Map<dynamic, dynamic>? weatherData =
-        await WeatherModel().getCityWeatherData('London');
+
+    final Map<dynamic, dynamic>? weatherData = await WeatherModel().getCityWeatherData('London');
+
     FlushbarHelper.createSuccess(
-      message: "WeatherData Received",
-      duration: Duration(seconds: 1),
+      message: 'Weather Data Received',
+      duration: const Duration(seconds: 1),
     );
-    // Fluttertoast.showToast(
-    //     msg: "WeatherData Received",
-    //     toastLength: Toast.LENGTH_SHORT,
-    //     gravity: ToastGravity.CENTER,
-    //     timeInSecForIosWeb: 1);
+
     Navigator.of(context).pushReplacement(
-      MaterialPageRoute(
-        builder: (context) {
+      MaterialPageRoute<WeatherResult>(
+        builder: (BuildContext context) {
           return WeatherResult(
             weatherData: weatherData,
           );
@@ -51,9 +45,9 @@ class _LoadingScreenState extends State<LoadingScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return const Scaffold(
       backgroundColor: Colors.black,
-      body: const Center(
+      body: Center(
         child: spinkit,
       ),
     );

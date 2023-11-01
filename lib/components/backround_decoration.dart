@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-const kBackgroundDecoration = BoxDecoration(
+const BoxDecoration kBackgroundDecoration = BoxDecoration(
   image: DecorationImage(
     image: AssetImage('images/blur_background.jpg'),
     fit: BoxFit.cover,

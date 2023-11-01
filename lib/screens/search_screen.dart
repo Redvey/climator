@@ -1,9 +1,11 @@
-import 'package:climator/components/custom_button.dart';
-import 'package:climator/utilities/constants.dart';
+import '../components/custom_button.dart';
+import '../utilities/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class SearchScreen extends StatefulWidget {
+  const SearchScreen({super.key});
+
   @override
   _SearchScreenState createState() => _SearchScreenState();
 }
@@ -30,7 +32,7 @@ class _SearchScreenState extends State<SearchScreen> {
                   height: 30,
                 ),
                 Row(
-                  children: [
+                  children: <Widget>[
                     Align(
                       alignment: Alignment.topLeft,
                       child: TextButton(
@@ -69,8 +71,8 @@ class _SearchScreenState extends State<SearchScreen> {
                   style: kCityNameTextStyle,
                 ),
                 Container(
-                  margin: EdgeInsets.symmetric(vertical: 10, horizontal: 30),
-                  padding: EdgeInsets.all(10.0),
+                  margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 30),
+                  padding: const EdgeInsets.all(10.0),
                   child: TextField(
                     textAlign: TextAlign.center,
                     style: GoogleFonts.pacifico(
@@ -78,7 +80,7 @@ class _SearchScreenState extends State<SearchScreen> {
                       color: Colors.blue,
                     ),
                     // decoration: kTextFieldInputDecoration,
-                    onChanged: (value) {
+                    onChanged: (String value) {
                       cityName = value;
                     },
                   ),

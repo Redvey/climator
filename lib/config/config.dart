@@ -1,6 +1,6 @@
-import "package:flutter_dotenv/flutter_dotenv.dart";
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
-import "config_keys.dart";
+import 'config_keys.dart';
 
 abstract class Config {
   static Config manager = ConfigImpl();
@@ -16,7 +16,7 @@ class ConfigImpl implements Config {
 
   @override
   Future<void> initConfig(String env) async {
-    assert(env.isNotEmpty, "Application cannot start without valid env");
-    dotenv.load(fileName: "$env.env");
+    assert(env.isNotEmpty, 'Application cannot start without valid env');
+    dotenv.load(fileName: '$env.env');
   }
 }

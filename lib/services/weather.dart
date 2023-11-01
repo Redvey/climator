@@ -1,22 +1,21 @@
-import 'package:climator/services/location.dart';
-import 'package:climator/services/networking.dart';
+import 'location.dart';
+import 'network_dio.dart';
 
 class WeatherModel {
-  getWeatherDataByLatLong() async {
-    var weatherData;
-    Locations locations = Locations();
+  Future<Map<String, dynamic>?> getWeatherDataByLatLong() async {
+    Map<String, dynamic>? weatherData;
+    final Locations locations = Locations();
     await locations.getCoordinates();
 
-    weatherData = await Networks()
+    weatherData = await NetworksDio()
         .getDataByLatLong(locations.longitude, locations.latitude);
 
     return weatherData;
   }
 
-  Future<Map<dynamic, dynamic>?> getCityWeatherData(String city) async {
-    Map<dynamic, dynamic>? weatherData = <dynamic, dynamic>{};
-    weatherData = await Networks().getDataByCity('$city');
-    // print(weatherData['weather'][0]['id']);
+  Future<Map<String, dynamic>?> getCityWeatherData(String city) async {
+    Map<String, dynamic>? weatherData;
+    weatherData = await NetworksDio().getDataByCity(city);
     return weatherData;
   }
 

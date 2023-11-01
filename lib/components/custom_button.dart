@@ -1,17 +1,9 @@
-import 'package:climator/utilities/constants.dart';
+import '../utilities/constants.dart';
 import 'package:flutter/material.dart';
 
 class CustomButton extends StatelessWidget {
-  final Color borderColor;
-  final Color? textColor;
-  final FontWeight? fontWeight;
-  final double? fontSize;
-  final Color? backgroundColor;
-  final String text;
-  final void Function() onPressed;
-  final double kBottomMargin;
 
-  const CustomButton({
+  const CustomButton({super.key, 
     required this.borderColor,
     this.backgroundColor,
     this.textColor,
@@ -21,6 +13,14 @@ class CustomButton extends StatelessWidget {
     required this.kBottomMargin,
     required this.onPressed,
   });
+  final Color borderColor;
+  final Color? textColor;
+  final FontWeight? fontWeight;
+  final double? fontSize;
+  final Color? backgroundColor;
+  final String text;
+  final void Function() onPressed;
+  final double kBottomMargin;
 
   @override
   Widget build(BuildContext context) {

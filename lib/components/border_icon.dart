@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class BorderWithIcon extends StatelessWidget {
-  BorderWithIcon({
+  const BorderWithIcon({super.key, 
     required this.widget,
     required this.colour,
   });
