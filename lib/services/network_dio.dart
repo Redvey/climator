@@ -63,15 +63,11 @@ class NetworksDio {
   }
 
   Map<String, dynamic>? decodeResponse(Response<dynamic> response) {
-    dynamic resultData;
     if (response.statusCode == 200) {
-      resultData = response.data;
-      print('resultData runtime type: ${resultData.runtimeType}');
+      return response.data as Map<String, dynamic>;
     } else {
-      print('In Decode Response Function');
-      print(response.statusCode);
       throw Exception('Server error. Please try again later.');
     }
-    return resultData as Map<String, dynamic>;
   }
+
 }

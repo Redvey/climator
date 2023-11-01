@@ -120,7 +120,7 @@ class _WeatherResultState extends State<WeatherResult> {
     return WillPopScope(
       onWillPop: _onWillPop,
       child: Scaffold(
-        body: Container(
+        body: ColoredBox(
           color: Colors.black,
           child: SafeArea(
             child: Container(
