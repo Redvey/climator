@@ -1,5 +1,7 @@
 // ignore: eol_at_end_of_file
 // import 'package:fluttertoast/fluttertoast.dart';
+// ignore_for_file: always_specify_types
+
 import 'package:geolocator/geolocator.dart';
 import 'package:another_flushbar/flushbar_helper.dart';
 
@@ -29,10 +31,10 @@ class Locations {
           'Location permissions are permanently denied, we cannot request permissions.');
     }
 
-    return await Geolocator.getCurrentPosition(
+    return Geolocator.getCurrentPosition(
       desiredAccuracy: LocationAccuracy.low,
       forceAndroidLocationManager: true,
-      timeLimit: Duration(seconds: 10),
+      timeLimit: const Duration(seconds: 10),
     );
   }
 
@@ -42,11 +44,11 @@ class Locations {
       latitude = position.latitude;
       longitude = position.longitude;
     } catch (e) {
-      print("In locations error");
+      print('In locations error');
       FlushbarHelper.createError(
         title: "Error",
         message:
-        "Either give proper permissions \n or Give refresh & \n Wait for the data to load",
+        'Either give proper permissions \n or Give refresh & \n Wait for the data to load',
         duration: Duration(seconds: 3),
       );
       // Fluttertoast.showToast(

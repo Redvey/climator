@@ -127,185 +127,183 @@ class _WeatherResultState extends State<WeatherResult> {
               padding: const EdgeInsets.all(20.0),
               decoration: kBackgroundDecoration,
               constraints: const BoxConstraints.expand(),
-              child: Container(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    // SizedBox(
-                    //   height: 40,
-                    // ),
-                    Row(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  // SizedBox(
+                  //   height: 40,
+                  // ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      GestureDetector(
+                        onTap: () async {
+                          final String? typedName = await Navigator.push(
+                            context,
+                            MaterialPageRoute<String>(
+                              builder: (BuildContext context) {
+                                return const SearchScreen();
+                              },
+                            ),
+                          );
+                          print('$typedName');
+                          if (typedName != null) {
+                            final Map<dynamic, dynamic>? weatherData =
+                                await weatherModel.getCityWeatherData(
+                                    typedName);
+
+                            setState(() {
+                              if (weatherData != null) {
+                                updateLocationDetails(weatherData);
+                              } else {
+                                FlushbarHelper.createError(
+                                  message:
+                                      'City Not Found \nPlease try again',
+                                  duration: const Duration(seconds: 1),
+                                );
+                                // Fluttertoast.showToast(
+                                //     msg: "City Not Found \nPlease try again",
+                                //     backgroundColor: Colors.red,
+                                //     toastLength: Toast.LENGTH_LONG,
+                                //     gravity: ToastGravity.CENTER,
+                                //     timeInSecForIosWeb: 1);
+                              }
+                            });
+                          }
+                        },
+                        child: const Icon(
+                          Icons.search,
+                          size: 35,
+                        ),
+                      ),
+                      BorderWithIcon(
+                        colour: Colors.blue,
+                        widget: Row(
+                          children: <Widget>[
+                            Icon(
+                              locationOn,
+                              color: Colors.blue,
+                            ),
+                            // BorderWithIcon(iconData: locationOn, colour: Colors.blue),
+                            Container(
+                              padding: const EdgeInsets.only(left: 2, top: 2),
+                              child: Text(
+                                cityName,
+                                style: kCityTextStyle,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      GestureDetector(
+                        onTap: () async {
+                          final Map<dynamic, dynamic>? weatherData =
+                              await WeatherModel().getWeatherDataByLatLong();
+                          setState(() {
+                            updateLocationDetails(weatherData);
+                          });
+                        },
+                        child: const Icon(
+                          Icons.refresh,
+                          size: 35,
+                        ),
+                      ),
+                    ],
+                  ),
+                  Container(
+                    padding: const EdgeInsets.all(10),
+                    margin: const EdgeInsets.only(
+                      top: 10,
+                    ),
+                    alignment: Alignment.topLeft,
+                    child: Text(
+                      "Today's Report",
+                      style: kReportTitleTextStyle,
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 30,
+                  ),
+                  Image(
+                    height: 180,
+                    image: AssetImage('images/weather_icons/$imageName.png'),
+                  ),
+                  const SizedBox(
+                    height: 50.0,
+                  ),
+                  Text(
+                    weatherMain,
+                    textAlign: TextAlign.center,
+                    style: kWeatherMainTextStyle,
+                  ),
+                  Expanded(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.baseline,
+                      textBaseline: TextBaseline.alphabetic,
+                      children: <Widget>[
+                        Text(
+                          '$temperature',
+                          style: kNumberTempTextStyle,
+                        ),
+                        Text(
+                          '°',
+                          style: kDegreeSign,
+                        ),
+                        Text(
+                          'C',
+                          style: kTextStyle,
+                        ),
+                      ],
+                    ),
+                  ),
+                  Expanded(
+                    child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
-                        GestureDetector(
-                          onTap: () async {
-                            final String? typedName = await Navigator.push(
-                              context,
-                              MaterialPageRoute<String>(
-                                builder: (BuildContext context) {
-                                  return const SearchScreen();
-                                },
-                              ),
-                            );
-                            print('$typedName');
-                            if (typedName != null) {
-                              final Map<dynamic, dynamic>? weatherData =
-                                  await weatherModel.getCityWeatherData(
-                                      typedName);
-
-                              setState(() {
-                                if (weatherData != null) {
-                                  updateLocationDetails(weatherData);
-                                } else {
-                                  FlushbarHelper.createError(
-                                    message:
-                                        'City Not Found \nPlease try again',
-                                    duration: const Duration(seconds: 1),
-                                  );
-                                  // Fluttertoast.showToast(
-                                  //     msg: "City Not Found \nPlease try again",
-                                  //     backgroundColor: Colors.red,
-                                  //     toastLength: Toast.LENGTH_LONG,
-                                  //     gravity: ToastGravity.CENTER,
-                                  //     timeInSecForIosWeb: 1);
-                                }
-                              });
-                            }
-                          },
-                          child: const Icon(
-                            Icons.search,
-                            size: 35,
+                        // Expanded(child: GetIconContent(icon, value, text)),
+                        Expanded(
+                          child: WeatherDetailsWithIcon(
+                            // iconText: 'Wind~~',
+                            iconText: '☀☁',
+                            detailText: '${windSpeed}km/hr',
+                            labelText: 'Wind Speed',
                           ),
                         ),
-                        BorderWithIcon(
-                          colour: Colors.blue,
-                          widget: Row(
-                            children: <Widget>[
-                              Icon(
-                                locationOn,
-                                color: Colors.blue,
-                              ),
-                              // BorderWithIcon(iconData: locationOn, colour: Colors.blue),
-                              Container(
-                                padding: const EdgeInsets.only(left: 2, top: 2),
-                                child: Text(
-                                  cityName,
-                                  style: kCityTextStyle,
-                                ),
-                              ),
-                            ],
+                        Expanded(
+                          child: WeatherDetailsWithIcon(
+                            // iconText: 'Weather',
+                            iconText: '🌧️',
+                            detailText: '$humidityValue%',
+                            labelText: 'Humidity',
                           ),
                         ),
-                        GestureDetector(
-                          onTap: () async {
-                            final Map<dynamic, dynamic>? weatherData =
-                                await WeatherModel().getWeatherDataByLatLong();
-                            setState(() {
-                              updateLocationDetails(weatherData);
-                            });
-                          },
-                          child: const Icon(
-                            Icons.refresh,
-                            size: 35,
+                        Expanded(
+                          child: WeatherDetailsWithIcon(
+                            // iconText: 'Compass',
+                            iconText: '🧭',
+                            detailText: windDirection,
+                            labelText: 'Wind Direction',
                           ),
                         ),
                       ],
                     ),
-                    Container(
-                      padding: const EdgeInsets.all(10),
-                      margin: const EdgeInsets.only(
-                        top: 10,
-                      ),
-                      alignment: Alignment.topLeft,
-                      child: Text(
-                        "Today's Report",
-                        style: kReportTitleTextStyle,
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 30,
-                    ),
-                    Image(
-                      height: 180,
-                      image: AssetImage('images/weather_icons/$imageName.png'),
-                    ),
-                    const SizedBox(
-                      height: 50.0,
-                    ),
-                    Text(
-                      weatherMain,
-                      textAlign: TextAlign.center,
-                      style: kWeatherMainTextStyle,
-                    ),
-                    Expanded(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.baseline,
-                        textBaseline: TextBaseline.alphabetic,
-                        children: <Widget>[
-                          Text(
-                            '$temperature',
-                            style: kNumberTempTextStyle,
-                          ),
-                          Text(
-                            '°',
-                            style: kDegreeSign,
-                          ),
-                          Text(
-                            'C',
-                            style: kTextStyle,
-                          ),
-                        ],
-                      ),
-                    ),
-                    Expanded(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          // Expanded(child: GetIconContent(icon, value, text)),
-                          Expanded(
-                            child: WeatherDetailsWithIcon(
-                              // iconText: 'Wind~~',
-                              iconText: '☀☁',
-                              detailText: '${windSpeed}km/hr',
-                              labelText: 'Wind Speed',
-                            ),
-                          ),
-                          Expanded(
-                            child: WeatherDetailsWithIcon(
-                              // iconText: 'Weather',
-                              iconText: '🌧️',
-                              detailText: '$humidityValue%',
-                              labelText: 'Humidity',
-                            ),
-                          ),
-                          Expanded(
-                            child: WeatherDetailsWithIcon(
-                              // iconText: 'Compass',
-                              iconText: '🧭',
-                              detailText: windDirection,
-                              labelText: 'Wind Direction',
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    CustomButton(
-                      text: kCustomButtonString,
-                      kBottomMargin: 10,
-                      borderColor: Colors.blue[500]!,
-                      textColor: Colors.blue,
-                      onPressed: () async {
-                        try {
-                          final String url = config.get(ConfigKeys.teamId);
-                          await launchUrl(Uri.parse(url));
-                        } catch (e) {
-                          print('Error in launching url $e');
-                        }
-                      },
-                    ),
-                  ],
-                ),
+                  ),
+                  CustomButton(
+                    text: kCustomButtonString,
+                    kBottomMargin: 10,
+                    borderColor: Colors.blue[500]!,
+                    textColor: Colors.blue,
+                    onPressed: () async {
+                      try {
+                        final String url = config.get(ConfigKeys.teamId);
+                        await launchUrl(Uri.parse(url));
+                      } catch (e) {
+                        print('Error in launching url $e');
+                      }
+                    },
+                  ),
+                ],
               ),
             ),
           ),

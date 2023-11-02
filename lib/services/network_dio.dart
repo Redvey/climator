@@ -26,7 +26,7 @@ class NetworksDio {
 
   Future<Map<String, dynamic>?> getDataByCity(String cityName) async {
     try {
-      final response = await dio.get<Map<String, dynamic>>(byCity(cityName));
+      final Response<Map<String, dynamic>> response = await dio.get<Map<String, dynamic>>(byCity(cityName));
       return decodeResponse(response);
     } on DioException catch (e) {
       if (e.type == DioExceptionType.connectionTimeout ||
@@ -45,7 +45,7 @@ class NetworksDio {
 
   Future<Map<String, dynamic>?> getDataByLatLong(double longitude, double latitude) async {
     try {
-      final response = await dio.get<Map<String, dynamic>>(byLatLong(latitude: latitude, longitude: longitude));
+      final Response<Map<String, dynamic>> response = await dio.get<Map<String, dynamic>>(byLatLong(latitude: latitude, longitude: longitude));
       return decodeResponse(response);
     } on DioException catch (e) {
       if (e.type == DioExceptionType.connectionTimeout ||
